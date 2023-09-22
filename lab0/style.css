@@ -32,10 +32,27 @@ button {
     width: 60%;
     height: 500px;
     margin: 25px;
+    position: relative;
+}
+
+.imgCover {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
     border-radius: 10px;
-    background: linear-gradient(-30deg, #a3d4fd, #ffffff, #feffeb);
-	background-size: 300% 300%;
+}
+
+#gradient1 {
+    background: linear-gradient(-30deg, #008cff80, #ffffff80, #0059ff80);
+    background-size: 300% 300%;
 	animation: gradient 20s ease infinite;
+    border-radius: 10px;
+}
+
+.absoluteDiv {
+    height: 100%;
+    width: 100%;
+    position:absolute;
 }
 
 @keyframes gradient {
@@ -58,13 +75,15 @@ button {
     display: grid;
     margin-top: 50px;
     justify-content: center;
-    grid-template-columns: 64px 320px;
+    grid-template-columns: 200px 90px;
     height: 64px;
     gap: 10px;
 }
 
 #logo {
-    height: 64px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 200px;
 }
 
 #title {
@@ -76,7 +95,7 @@ button {
 
 .subtitle {
     font-weight: normal;
-    font-size: 20px;
+    font-size: 24px;
     margin-top: 30px;
 }
 
