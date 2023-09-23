@@ -1,4 +1,6 @@
 
+const minuteInMs = 60000;
+
 const terminalCodeToName = {
 	"TSA": "Tsawwassen",
 	"SWB": "Swartz Bay",
@@ -31,6 +33,13 @@ selectTo.addEventListener("input", updateTable);
 
 initializeSelects();
 updateTable();
+setInterval(function() { updateTable() }, minuteInMs);
+
+async function fetchFerries(from, to) {
+	const url = "https://www.bcferriesapi.ca/api/" + from + "/" + to + "/";
+	const response = await fetch(url, {mode: 'cors'});
+	return response.json();
+}
 
 function initializeSelects() {
 	Object.keys(terminalDestinations).forEach(terminalCode => {
@@ -56,15 +65,8 @@ function appendSelectOption(selectElement, value, text) {
 	selectElement.appendChild(option);
 }
 
-async function fetchFerries(from, to) {
-	const url = "https://www.bcferriesapi.ca/api/" + from + "/" + to + "/";
-	const response = await fetch(url, {mode: 'cors'});
-	return response.json();
-}
-
 async function updateTable() {
 	const ferries = await fetchFerries(selectFrom.value, selectTo.value);
-	console.log(ferries);
 	tableSailings.innerHTML = "";
 	appendTrHeaderToTable();
 
@@ -72,24 +74,44 @@ async function updateTable() {
 		const tr = document.createElement("tr");
 		tr.setAttribute("class", "custom-tr");
 		appendTdToTr(tr, sailing.time);
-		appendTdToTr(tr, (100 - sailing.fill) + "% " + (100 - sailing.carFill) + "% " + (100 - sailing.oversizeFill) + "%");
+		appendCapacityTdToTr(tr, sailing.fill);
+		appendCapacityTdToTr(tr, sailing.carFill);
+		appendCapacityTdToTr(tr, sailing.oversizeFill);
 		appendTdToTr(tr, sailing.vesselName);
 		tableSailings.appendChild(tr);
 	});
+	console.log("Table updated at " + new Date());
 }
 
 function appendTrHeaderToTable() {
 	const tr = document.createElement("tr");
 	tr.setAttribute("class", "custom-tr");
 	appendTdToTr(tr, "Departure");
-	appendTdToTr(tr, "Capacity");
+	const tdCapacities = appendTdToTr(tr, "Capacities <div id='capacities-icons-grid'> <img class='capacity-icon' id='capacity-icon-person' src='images/person-svgrepo-com.svg'> <img class='capacity-icon' id='capacity-icon-car' src='images/car-hatchback-svgrepo-com.svg'> <img class='capacity-icon' id='capacity-icon-truck' src='images/truck-svgrepo-com.svg'> </div>");
+	tdCapacities.setAttribute("class", "capacity-td-header");
+	tdCapacities.setAttribute("colspan", "3");
 	appendTdToTr(tr, "Ferry");
 	tableSailings.appendChild(tr);
 }
 
-function appendTdToTr(tr, tdText) {
+function appendTdToTr(tr, text) {
 	const td = document.createElement("td");
 	td.setAttribute("class", "custom-td");
-	td.innerHTML = tdText;
+	td.innerHTML = text;
+	tr.appendChild(td);
+	return td;
+}
+
+function appendCapacityTdToTr(tr, fullness) {
+	const td = document.createElement("td");
+	const capacityPercentage = 100 - fullness;
+	td.setAttribute("class", "capacity-td");
+	td.style.color = getColor(capacityPercentage)
+	td.innerHTML = capacityPercentage + "%";
 	tr.appendChild(td);
 }
+
+function getColor(percentage) {
+	var hue = (percentage * 1.2).toString(10);
+	return ["hsl(", hue, ",100%,50%)"].join("");
+  }

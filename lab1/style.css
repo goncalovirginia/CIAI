@@ -28,8 +28,7 @@ button {
 
 .container {
     display: inline-block;
-    min-width: 1000px;
-    width: 60%;
+    min-width: 1200px;
     height: 500px;
     margin: 25px;
     position: relative;
@@ -44,9 +43,9 @@ button {
 }
 
 #gradient1 {
-    background: linear-gradient(-30deg, #008cff80, #bcfdff80, #0059ff80);
+    background: linear-gradient(-30deg, #00ccff80, #b0efff80, #0059ff80);
     background-size: 300% 300%;
-	animation: gradient 20s ease infinite;
+	animation: gradient 10s ease infinite;
     border-radius: 10px;
 }
 
@@ -54,6 +53,7 @@ button {
     height: 100%;
     width: 100%;
     position:absolute;
+    box-shadow: inset 0 0 0 100vmax rgba(255, 255, 255, 0.3);
 }
 
 @keyframes gradient {
@@ -222,6 +222,33 @@ textarea:focus, input:focus, select:focus {
 
 .custom-td {
     padding: 0px;
-    padding-left: 10px;
-    width: 100px;
+    width: 300px;
+}
+
+.capacity-icon {
+    width: 30px;
+    margin: auto;
+}
+
+.capacity-td-header {
+    padding: 0px;
+    width: 150px;
+}
+
+.capacity-td {
+    padding: 0px;
+    width: 50px;
+}
+
+#capacities-icons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+#capacity-icon-person {
+    height: 22px;
+}
+
+#capacity-icon-truck {
+    width: 35px;
 }
