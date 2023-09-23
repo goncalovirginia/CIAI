@@ -64,7 +64,7 @@ async function fetchFerries(from, to) {
 
 async function updateTable() {
 	const ferries = await fetchFerries(selectFrom.value, selectTo.value);
-
+	console.log(ferries);
 	tableSailings.innerHTML = "";
 	appendTrHeaderToTable();
 
@@ -72,7 +72,7 @@ async function updateTable() {
 		const tr = document.createElement("tr");
 		tr.setAttribute("class", "custom-tr");
 		appendTdToTr(tr, sailing.time);
-		appendTdToTr(tr, sailing.fill);
+		appendTdToTr(tr, (100 - sailing.fill) + "% " + (100 - sailing.carFill) + "% " + (100 - sailing.oversizeFill) + "%");
 		appendTdToTr(tr, sailing.vesselName);
 		tableSailings.appendChild(tr);
 	});
