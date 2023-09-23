@@ -33,7 +33,7 @@ button {
     height: 500px;
     margin: 25px;
     position: relative;
-    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.5);
 }
 
 .imgCover {
@@ -44,7 +44,7 @@ button {
 }
 
 #gradient1 {
-    background: linear-gradient(-30deg, #008cff80, #ffffff80, #0059ff80);
+    background: linear-gradient(-30deg, #008cff80, #bcfdff80, #0059ff80);
     background-size: 300% 300%;
 	animation: gradient 20s ease infinite;
     border-radius: 10px;
@@ -120,32 +120,44 @@ button {
     margin-left: 100px;
     margin-right: 100px;
     background-image: linear-gradient(to bottom right, rgb(20, 20, 20), rgb(40, 40, 40));
-    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.5);
     padding-top: 25px;
-    padding-left: 25px;
-    padding-right: 25px;
+    padding-left: 45px;
+    padding-right: 45px;
     padding-bottom: 25px;
     border-radius: 10px;
     height: fit-content;
-    height: 400px;
+}
+
+#content-grid {
+    height: 25px;
+    display: grid;
+    grid-template-columns: 1fr 100px 1fr;
+    color: #ffffff;
+    text-align: left;
+}
+
+#from {
+    margin: 0px;
+    margin-left: 20px;
+}
+
+#to {
+    margin: 0px;
+    margin-left: 20px;
 }
 
 #content-select-grid {
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-top: 10px;
     display: grid;
     justify-content: center;
     text-align: center;
     grid-template-columns: 1fr 100px 1fr;
-    height: 50px;
-    gap: 10px;
+    height: 40px;
 }
 
 .custom-select {
-    padding: 12.5px 30px;
     border: 0;
-    border-radius: 40px;
+    border-radius: 18px;
     background-color: #2ba8fb;
     color: #000000;
     text-align: center;
@@ -172,8 +184,8 @@ button {
   
 .custom-select:active {
     background-color: #3d94cf;
-    transition: all 0.25s;
-    -webkit-transition: all 0.25s;
+    transition: all 0.1s;
+    -webkit-transition: all 0.1s;
     box-shadow: none;
     transform: scale(0.99);
 }
@@ -187,13 +199,29 @@ textarea:focus, input:focus, select:focus {
     margin: auto;
 }
 
-.content-tr:nth-child(even) {background-color: rgb(25, 25, 25);}
+.custom-table {
+    width: 100%;
+    color: #ffffff;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
 
-.content-td {
-    min-width: 110px;
-    padding-right: 40px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    min-width: 200px;
-    padding: 10px;
+.custom-tr {
+    height: 35px;
+}
+
+.custom-tr:first-child {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.custom-tr:nth-child(even) {
+    background-color: rgb(25, 25, 25);
+}
+
+.custom-td {
+    padding: 0px;
+    padding-left: 10px;
+    width: 100px;
 }

@@ -24,19 +24,29 @@ const terminalDestinations = {
 
 const selectFrom = document.getElementById("selectFrom");
 const selectTo = document.getElementById("selectTo");
+const tableSailings = document.getElementById("tableSailings");
 
-selectFrom.addEventListener("select", updateListing);
-selectTo.addEventListener("select", updateListing);
+selectFrom.addEventListener("input", updateSelectsAndTable);
+selectTo.addEventListener("input", updateTable);
 
-initializeSelectElements();
+initializeSelects();
+updateTable();
 
-function initializeSelectElements() {
+function initializeSelects() {
 	Object.keys(terminalDestinations).forEach(terminalCode => {
 		appendSelectOption(selectFrom, terminalCode, terminalCodeToName[terminalCode]);
 	});
-	terminalDestinations["TSA"].forEach(terminalCode => {
+	terminalDestinations[selectFrom.value].forEach(terminalCode => {
 		appendSelectOption(selectTo, terminalCode, terminalCodeToName[terminalCode]);
 	});
+}
+
+function updateSelectsAndTable() {
+	selectTo.innerHTML = "";
+	terminalDestinations[selectFrom.value].forEach(terminalCode => {
+		appendSelectOption(selectTo, terminalCode, terminalCodeToName[terminalCode]);
+	});
+	updateTable();
 }
 
 function appendSelectOption(selectElement, value, text) {
@@ -48,16 +58,38 @@ function appendSelectOption(selectElement, value, text) {
 
 async function fetchFerries(from, to) {
 	const url = "https://www.bcferriesapi.ca/api/" + from + "/" + to + "/";
-	const response = await fetch(url, {
-		mode: 'cors'
+	const response = await fetch(url, {mode: 'cors'});
+	return response.json();
+}
+
+async function updateTable() {
+	const ferries = await fetchFerries(selectFrom.value, selectTo.value);
+
+	tableSailings.innerHTML = "";
+	appendTrHeaderToTable();
+
+	ferries.sailings.forEach(sailing => {
+		const tr = document.createElement("tr");
+		tr.setAttribute("class", "custom-tr");
+		appendTdToTr(tr, sailing.time);
+		appendTdToTr(tr, sailing.fill);
+		appendTdToTr(tr, sailing.vesselName);
+		tableSailings.appendChild(tr);
 	});
-	const data = await response.json();
-	console.log(data);
 }
 
-function updateListing() {
-	fetchFerries(selectFrom.value, selectTo.value);
-	console.log("updated");
+function appendTrHeaderToTable() {
+	const tr = document.createElement("tr");
+	tr.setAttribute("class", "custom-tr");
+	appendTdToTr(tr, "Departure");
+	appendTdToTr(tr, "Capacity");
+	appendTdToTr(tr, "Ferry");
+	tableSailings.appendChild(tr);
 }
 
-
+function appendTdToTr(tr, tdText) {
+	const td = document.createElement("td");
+	td.setAttribute("class", "custom-td");
+	td.innerHTML = tdText;
+	tr.appendChild(td);
+}
