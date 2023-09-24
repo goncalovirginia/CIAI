@@ -1,6 +1,7 @@
 
-const minuteInMs = 60000;
+// Updates every minute
 const ferriesAPI = "https://www.bcferriesapi.ca/api/";
+const minuteInMs = 60000;
 
 const terminalCodeToName = {
 	"TSA": "Tsawwassen",
@@ -70,15 +71,23 @@ async function updateTable() {
 	const ferries = await fetchFerries(selectFrom.value, selectTo.value);
 	tableSailings.innerHTML = "";
 	appendTrHeaderToTable();
-
+	
 	ferries.sailings.forEach(sailing => {
 		const tr = document.createElement("tr");
 		tr.setAttribute("class", "custom-tr");
-		appendTdToTr(tr, sailing.time);
+
+		const timeTd = appendTdToTr(tr, sailing.time);
+		if (sailing.isCancelled == true) {
+			timeTd.innerHTML = sailing.time + " (CANCELLED)";
+			timeTd.style.color = getColor(0);
+		}
+
 		appendCapacityTdToTr(tr, sailing.fill);
 		appendCapacityTdToTr(tr, sailing.carFill);
 		appendCapacityTdToTr(tr, sailing.oversizeFill);
+
 		appendTdToTr(tr, sailing.vesselName);
+
 		tableSailings.appendChild(tr);
 	});
 	console.log("Table updated at " + new Date());
