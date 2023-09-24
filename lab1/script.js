@@ -1,5 +1,6 @@
 
 const minuteInMs = 60000;
+const ferriesAPI = "https://www.bcferriesapi.ca/api/";
 
 const terminalCodeToName = {
 	"TSA": "Tsawwassen",
@@ -36,7 +37,7 @@ updateTable();
 setInterval(function() { updateTable() }, minuteInMs);
 
 async function fetchFerries(from, to) {
-	const url = "https://www.bcferriesapi.ca/api/" + from + "/" + to + "/";
+	const url = ferriesAPI + from + "/" + to + "/";
 	const response = await fetch(url, {mode: 'cors'});
 	return response.json();
 }

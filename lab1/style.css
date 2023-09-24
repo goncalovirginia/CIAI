@@ -252,3 +252,11 @@ textarea:focus, input:focus, select:focus {
 #capacity-icon-truck {
     width: 35px;
 }
+
+#ferriesMap {
+    width: 500px; 
+    height: 670px;
+    margin-top: 220px;
+    scale: 1.5;
+    margin-bottom: 220px;
+}
